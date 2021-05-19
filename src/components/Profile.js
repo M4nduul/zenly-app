@@ -58,8 +58,6 @@ const InputForms = () => {
 }
 
 
-
-
 const Profile = () => {
     return (
         <div>
