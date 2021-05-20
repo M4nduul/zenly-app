@@ -6,11 +6,14 @@ import './index.css'
 import Homepage from './components/Homepage'
 import Profile from './components/Profile'
 import FriendRequests from './components/FriendRequests'
+import PhoneAuth from './components/Login'
+
 
 ReactDOM.render(
   <React.StrictMode>
     {/* <FriendRequests /> */}
-    <Homepage />
+    {/* <Homepage /> */}
+    <PhoneAuth />
     {/* <Profile /> */}
   </React.StrictMode>,
   document.getElementById('root')
