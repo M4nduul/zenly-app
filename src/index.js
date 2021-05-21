@@ -6,15 +6,28 @@ import './index.css'
 import Homepage from './components/Homepage'
 import Profile from './components/Profile'
 import FriendRequests from './components/FriendRequests'
-import PhoneAuth from './components/Login'
+import Login from './components/Login'
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 
 ReactDOM.render(
   <React.StrictMode>
-    {/* <FriendRequests /> */}
-    {/* <Homepage /> */}
-    <PhoneAuth />
-    {/* <Profile /> */}
+    <Router>
+      <Switch>
+        <Route path='/'>
+          <Homepage />
+        </Route>
+        <Route path='/friendreq'>
+          <FriendRequests />
+        </Route>
+        <Route path='/login'>
+          <Login />
+        </Route>
+        <Route path='/profile'>
+          <Profile />
+        </Route>
+      </Switch>
+    </Router>    
   </React.StrictMode>,
   document.getElementById('root')
 );
