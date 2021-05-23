@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import firebase, { firestore, auth } from './base'
 import './login.scss'
 import { useHistory } from "react-router-dom";
-  
+
 
 const PhoneAuth = () => {
     const [input, setInput] = useState('88888888');
@@ -12,34 +12,34 @@ const PhoneAuth = () => {
     const [isLogin, setIsLogin] = useState(false);
 
     const history = useHistory();
-    
+
     useEffect(() => {
         window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('sign-in-button', {
             // 'size': 'invisible',
             // 'callback': (response) => {
             // }
         });
-        
+
         auth.onAuthStateChanged((user) => {
             console.log(user);
             if (user) {
-              setIsLogin(true);
+                setIsLogin(true);
             } else {
-              setIsLogin(false);
+                setIsLogin(false);
             }
-          });
+        });
     }, []);
-    
+
     const sendConfirmCode = async () => {
         setLoading(true);
         const appVerifier = window.recaptchaVerifier;
         console.log(appVerifier);
 
         try {
-            window.confirmationResult = await auth.signInWithPhoneNumber(`+976 ${ input }`, appVerifier);
+            window.confirmationResult = await auth.signInWithPhoneNumber(`+976 ${input}`, appVerifier);
             setSentCode(true);
-            history.push('./home')
-        } catch(e) {
+            history.push('./profile')
+        } catch (e) {
             console.log(e);
         } finally {
             setLoading(false);
@@ -51,22 +51,22 @@ const PhoneAuth = () => {
             const user = await window.confirmationResult.confirm(confirmCode);
             console.log(user)
 
-        } catch(e) {
+        } catch (e) {
             console.log(e);
             alert('Wrong code')
-        }        
+        }
     }
-    
+
     return (
         <div>
             <input
                 value={input}
                 onChange={event => setInput(event.target.value)}
-                placeholder = 'Phone number'
+                placeholder='Phone number'
             />
 
             {
-                !sentCode && 
+                !sentCode &&
                 <a href="#!" onClick={sendConfirmCode} className="modal-close waves-effect indigo white-text waves-green btn-flat">Send Verification code</a>
             }
 
@@ -76,8 +76,8 @@ const PhoneAuth = () => {
                         <input
                             value={confirmCode}
                             onChange={event => setConfirmCode(event.target.value)}
-                            placeholder = 'Verification code'
-                            />
+                            placeholder='Verification code'
+                        />
                         <a href="#!" onClick={login} className="modal-close waves-effect indigo white-text waves-green btn-flat">Enter</a>
 
                     </>
@@ -88,7 +88,7 @@ const PhoneAuth = () => {
     )
 
 
- 
+
 
 }
 
@@ -97,10 +97,10 @@ const Login = () => {
     return (
         <div class="container row card-container">
             <div class="login-card card center-align">
-            <div class="card-content black-text">
-                <span class="card-title ">Log In </span>
-                    <PhoneAuth/>      
-            </div>
+                <div class="card-content black-text">
+                    <span class="card-title ">Log In </span>
+                    <PhoneAuth />
+                </div>
             </div>
         </div>
     )

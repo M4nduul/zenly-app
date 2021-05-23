@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
 import 'materialize-css/dist/css/materialize.min.css'
 import 'materialize-css/dist/js/materialize.min.js'
@@ -14,7 +14,7 @@ ReactDOM.render(
   <React.StrictMode>
     <Router>
       <Switch>
-        <Route path='/'>
+        <Route exact path='/'>
           <Homepage />
         </Route>
         <Route path='/friendreq'>
@@ -27,7 +27,7 @@ ReactDOM.render(
           <Profile />
         </Route>
       </Switch>
-    </Router>    
+    </Router>
   </React.StrictMode>,
   document.getElementById('root')
 );
