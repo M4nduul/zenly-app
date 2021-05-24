@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import firebase, { firestore, auth } from './base'
+import firebase from 'firebase/app'
+import { firestore, auth } from './base'
 import './login.scss'
 import { useHistory } from "react-router-dom";
 
 
-const PhoneAuth = () => {
-    const [input, setInput] = useState('88888888');
+const PhoneAuth = ({ user }) => {
+    const [input, setInput] = useState('');
     const [confirmCode, setConfirmCode] = useState('');
     const [sentCode, setSentCode] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -15,32 +16,32 @@ const PhoneAuth = () => {
 
     useEffect(() => {
         window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('sign-in-button', {
-            // 'size': 'invisible',
-            // 'callback': (response) => {
-            // }
+            'size': 'invisible',
         });
 
-        auth.onAuthStateChanged((user) => {
-            console.log(user);
-            if (user) {
-                setIsLogin(true);
-            } else {
-                setIsLogin(false);
-            }
-        });
     }, []);
+
+    useEffect(() => {
+        auth.onAuthStateChanged((user) => {
+          if (user) {
+            history.push('./profile')
+          } else {
+          }
+        });
+      
+      }, [user])
+    
+    
 
     const sendConfirmCode = async () => {
         setLoading(true);
         const appVerifier = window.recaptchaVerifier;
-        console.log(appVerifier);
 
         try {
             window.confirmationResult = await auth.signInWithPhoneNumber(`+976 ${input}`, appVerifier);
             setSentCode(true);
-            history.push('./profile')
         } catch (e) {
-            console.log(e);
+            alert(e);
         } finally {
             setLoading(false);
         }
@@ -48,12 +49,13 @@ const PhoneAuth = () => {
 
     const login = async () => {
         try {
-            const user = await window.confirmationResult.confirm(confirmCode);
-            console.log(user)
+            user = await window.confirmationResult.confirm(confirmCode);
+            console.log('user', user)
+
 
         } catch (e) {
-            console.log(e);
             alert('Wrong code')
+            console.log(e);
         }
     }
 
@@ -67,7 +69,7 @@ const PhoneAuth = () => {
 
             {
                 !sentCode &&
-                <a href="#!" onClick={sendConfirmCode} className="modal-close waves-effect indigo white-text waves-green btn-flat">Send Verification code</a>
+                <a href="#!" onClick={sendConfirmCode} className="modal-close waves-effect indigo white-text waves-green btn-flat">get verification code</a>
             }
 
             {
@@ -92,21 +94,19 @@ const PhoneAuth = () => {
 
 }
 
-const Login = () => {
+const Login = ({ user }) => {
 
     return (
-        <div class="container row card-container">
-            <div class="login-card card center-align">
-                <div class="card-content black-text">
-                    <span class="card-title ">Log In </span>
-                    <PhoneAuth />
+        <div className="container row card-container">
+            <div className="login-card card center-align">
+                <div className="card-content black-text">
+                    <span className="card-title ">Log In </span>
+                    <PhoneAuth user={ user }/>
                 </div>
             </div>
         </div>
     )
 }
-
-
 
 
 export default Login;

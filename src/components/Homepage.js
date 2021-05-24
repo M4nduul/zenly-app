@@ -4,8 +4,6 @@ const Homepage = () => {
   const history = useHistory()
 
 
-
-
   return (
     <div className='container map'>
       <header className=''> <h4>ULAANBAATAR</h4> </header>
