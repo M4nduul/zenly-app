@@ -4,31 +4,47 @@ import './profile.scss'
 import { useState } from 'react';
 
 
-const InputForms = () => {
+const Profile = () => {
     
     const history = useHistory();
-    const [username, setUsername] = useState('username');
-    const [age, setAge] = useState('age');
-    const [phone, setPhone] = useState();
+    const [profile, setProfile] = useState({
+        username: 'Ner',
+        age: 'Nas',
+        email: 'Email hayag'
+    });
     
     const logout = async () => {
         try {
             const userSignOut = await auth.signOut()
-            history.push('./')
+            history.push('./home')
         } catch(e) {
             alert(e)
         }
     }
-    const saveProfile = () => {
-        let user = auth.currentUser;
-        console.log(auth.currentUser.uid);  
-        //
-        // firestore.collection(user.uid).add({
-        //     username: username,
-        //     age: age,
-        //     phone: user.phoneNumber,
-        // })
+    const saveProfile = async () => {
+        let user = auth.currentUser;        
+
+        try {
+            console.log(profile);
+            await firestore.collection('users').doc(user.uid).set({
+                username: profile.username,
+                age: profile.age,
+                phone: user.phoneNumber,
+                email: profile.email
+            })
+            console.log('Successful');
+        } catch(e) {
+            console.log(e); 
+        }
          
+    }
+
+    const b = {
+        b: 3
+    }
+    const a = {
+        b:1,
+        ...b,
     }
     
 
@@ -43,40 +59,32 @@ const InputForms = () => {
                     <li className="collection-item avatar valign-wrapper">
                         <i className="material-icons medium">account_circle</i>
                         <div className="input-field">
-                            <input id="last_name" type="text" className="validate"/>
-                            <label for="last_name">{ username }</label>
+                            <input onChange={(e) => {setProfile({...profile, username: e.target.value})}} id="last_name" type="text" className="validate"/>
+                            <label for="last_name">{ profile.username }</label>
                         </div>
                     </li>
                     
                     <li className="collection-item avatar valign-wrapper">
                         <i className="material-icons medium">account_circle</i>
                         <div className="input-field">
-                            <input id="age" type="number" className="validate"/>
-                            <label for="age">{ age }</label>
+                            <input onChange={(e) => {setProfile({...profile, age: e.target.value})}} id="age" type="text" className="validate"/>
+                            <label for="age">{ profile.age }</label>
                         </div>
                     </li>
                     
-                    <li className="collection-item avatar valign-wrapper">
+                    {/* <li className="collection-item avatar valign-wrapper">
                         <i className="material-icons medium">account_circle</i>
                         <div className="input-field">
                             <input id="phone" type="number" className="validate"/>
-                            <label for="phone">{ phone }</label>
+                            <label for="phone">{ profile.phone }</label>
                         </div>
-                    </li>
+                    </li> */}
                     
                     <li className="collection-item avatar valign-wrapper">
                         <i className="material-icons medium">account_circle</i>
                         <div className="input-field">
-                            <input id="email" type="email" className="validate"/>
-                            <label for="email">Email</label>
-                        </div>
-                    </li>
-                    
-                    <li className="collection-item avatar valign-wrapper">
-                        <i className="material-icons medium">account_circle</i>
-                        <div className="input-field">
-                            <input id="password" type="password" className="validate"/>
-                            <label for="password">Password</label>
+                            <input onChange={(e) => {setProfile({...profile, email: e.target.value})}} id="email" type="email" className="validate"/>
+                            <label for="email">{ profile.email }</label>
                         </div>
                     </li>
 
@@ -90,13 +98,5 @@ const InputForms = () => {
     )
 }
 
-
-const Profile = () => {
-    return (
-        <div>
-            <InputForms />
-        </div>
-    )   
-}
 
 export default Profile;

@@ -13,7 +13,7 @@ const PhoneAuth = ({ user }) => {
     const [isLogin, setIsLogin] = useState(false);
 
     const history = useHistory();
-
+    
     useEffect(() => {
         window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('sign-in-button', {
             'size': 'invisible',
@@ -24,7 +24,7 @@ const PhoneAuth = ({ user }) => {
     useEffect(() => {
         auth.onAuthStateChanged((user) => {
           if (user) {
-            history.push('./profile')
+            history.push('./home')
           } else {
           }
         });
@@ -50,9 +50,8 @@ const PhoneAuth = ({ user }) => {
     const login = async () => {
         try {
             user = await window.confirmationResult.confirm(confirmCode);
-            console.log('user', user)
-
-
+            
+            
         } catch (e) {
             alert('Wrong code')
             console.log(e);
@@ -100,7 +99,7 @@ const Login = ({ user }) => {
         <div className="container row card-container">
             <div className="login-card card center-align">
                 <div className="card-content black-text">
-                    <span className="card-title ">Log In </span>
+                    <span className="card-title">Log In </span>
                     <PhoneAuth user={ user }/>
                 </div>
             </div>

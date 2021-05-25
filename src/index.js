@@ -20,8 +20,8 @@ const App = () => {
   return(
     <Router>
       <Switch>
-        <Route exact path='/'>
-          <Homepage />
+        <Route exact path='/home'>
+          <Homepage user={ user }/>
         </Route>
         <Route path='/friendreq'>
           <FriendRequests />
@@ -30,7 +30,7 @@ const App = () => {
           <Login user={ user }/>
         </Route>
         <Route path='/profile'>
-          <Profile />
+          <Profile user={ user }/>
         </Route>
       </Switch>
     </Router>
