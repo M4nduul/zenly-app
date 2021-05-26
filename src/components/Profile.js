@@ -2,33 +2,18 @@ import { firestore, auth } from './base'
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import './profile.scss'
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom'
 
-
-const Profile = () => {
+const Profile = ({user, setUser}) => {
 
     const history = useHistory();
-    const [profile, setProfile] = useState({
-        username: 'Ner',
-        age: 'Nas',
-        email: 'Email hayag'
-    });
-
-    useEffect(() => {
-        const getProfile = async () => {
-            try {
-                const doc = await firestore.collection('users').doc(auth.currentUser.uid).get()
-                console.log('Successful', doc);
-            } catch (e) {
-                console.log(e)
-            }
-        }
-    }, [])
+    const [profile, setProfile] = useState({});
 
 
     const logout = async () => {
         try {
-            const userSignOut = await auth.signOut()
-            history.push('./home')
+            await auth.signOut()
+            history.push('/login')
         } catch (e) {
             alert(e)
         }
@@ -37,15 +22,18 @@ const Profile = () => {
 
         try {
             await firestore.collection('users').doc(auth.currentUser.uid).set({
+                ...user,
+                img: '',
                 username: profile.username,
-                age: profile.age,
-                phone: auth.currentUser.phoneNumber,
-                email: profile.email
             })
             console.log('Successful');
         } catch (e) {
             console.log(e);
         }
+
+        setUser({
+            
+        })
 
     }
 
@@ -63,36 +51,13 @@ const Profile = () => {
                             <input onChange={(e) => { setProfile({ ...profile, username: e.target.value }) }} id="last_name" type="text" className="validate" />
                             <label for="last_name">{profile.username}</label>
                         </div>
-                    </li>
-
-                    <li className="collection-item avatar valign-wrapper">
-                        <i className="material-icons medium">account_circle</i>
-                        <div className="input-field">
-                            <input onChange={(e) => { setProfile({ ...profile, age: e.target.value }) }} id="age" type="text" className="validate" />
-                            <label for="age">{profile.age}</label>
-                        </div>
-                    </li>
-
-                    {/* <li className="collection-item avatar valign-wrapper">
-                        <i className="material-icons medium">account_circle</i>
-                        <div className="input-field">
-                            <input id="phone" type="number" className="validate"/>
-                            <label for="phone">{ profile.phone }</label>
-                        </div>
-                    </li> */}
-
-                    <li className="collection-item avatar valign-wrapper">
-                        <i className="material-icons medium">account_circle</i>
-                        <div className="input-field">
-                            <input onChange={(e) => { setProfile({ ...profile, email: e.target.value }) }} id="email" type="email" className="validate" />
-                            <label for="email">{profile.email}</label>
-                        </div>
+                        <Link onClick={saveProfile} className="waves-effect waves-light indigo btn-small">location</Link>
                     </li>
 
                 </ul>
                 <div className='btn-container'>
-                    <a onClick={saveProfile} className="waves-effect waves-light indigo btn-large">SAVE PROFILE</a>
-                    <a onClick={logout} className="waves-effect waves-light red btn-large">log out</a>
+                    <Link onClick={saveProfile} className="waves-effect waves-light indigo btn-large">SAVE PROFILE</Link>
+                    <Link onClick={logout} className="waves-effect waves-light red btn-large">log out</Link>
                 </div>
             </main>
         </div>

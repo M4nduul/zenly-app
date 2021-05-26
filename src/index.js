@@ -1,48 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import ReactDOM from 'react-dom';
-import 'materialize-css/dist/css/materialize.min.css'
-import 'materialize-css/dist/js/materialize.min.js'
-import './index.css'
-import Homepage from './components/Homepage'
-import Profile from './components/Profile'
-import FriendRequests from './components/FriendRequests'
-import Login from './components/Login'
-import { BrowserRouter as Router, Switch, Route, useHistory } from "react-router-dom";
-import { auth } from './components/base'
-
-const App = () => {
-  const [user, setUser] = useState(null)
-  const history = useHistory();
-
-  
-
-  
-  return(
-    <Router>
-      <Switch>
-        <Route exact path='/home'>
-          <Homepage user={ user }/>
-        </Route>
-        <Route path='/friendreq'>
-          <FriendRequests />
-        </Route>
-        <Route path='/login'>
-          <Login user={ user }/>
-        </Route>
-        <Route path='/profile'>
-          <Profile user={ user }/>
-        </Route>
-      </Switch>
-    </Router>
-  )
-  
-}
-
-export default App;
+import { BrowserRouter } from 'react-router-dom/cjs/react-router-dom.min';
+import React from 'react';
+import ReactDOM from 'react-dom'
+import App from './App'
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  <BrowserRouter>
+    <React.StrictMode>
+      <App />
+    </React.StrictMode>
+  </BrowserRouter>,
   document.getElementById('root')
 );

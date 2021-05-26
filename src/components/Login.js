@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import firebase from 'firebase/app'
-import { firestore, auth } from './base'
+import { auth } from './base'
 import './login.scss'
 import { useHistory } from "react-router-dom";
 
@@ -9,11 +9,8 @@ const PhoneAuth = ({ user }) => {
     const [input, setInput] = useState('');
     const [confirmCode, setConfirmCode] = useState('');
     const [sentCode, setSentCode] = useState(false);
-    const [loading, setLoading] = useState(false);
-    const [isLogin, setIsLogin] = useState(false);
 
     const history = useHistory();
-    
     useEffect(() => {
         window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('sign-in-button', {
             'size': 'invisible',
@@ -21,20 +18,7 @@ const PhoneAuth = ({ user }) => {
 
     }, []);
 
-    useEffect(() => {
-        auth.onAuthStateChanged((user) => {
-          if (user) {
-            history.push('./home')
-          } else {
-          }
-        });
-      
-      }, [user])
-    
-    
-
     const sendConfirmCode = async () => {
-        setLoading(true);
         const appVerifier = window.recaptchaVerifier;
 
         try {
@@ -43,14 +27,13 @@ const PhoneAuth = ({ user }) => {
         } catch (e) {
             alert(e);
         } finally {
-            setLoading(false);
         }
     }
 
     const login = async () => {
         try {
             user = await window.confirmationResult.confirm(confirmCode);
-            
+            history.push('./')
             
         } catch (e) {
             alert('Wrong code')
