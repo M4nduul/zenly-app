@@ -4,11 +4,10 @@ import './profile.scss'
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom'
 
-const Profile = ({user, setUser}) => {
+const Profile = ({ user, setUser }) => {
 
-    const history = useHistory();
     const [profile, setProfile] = useState({});
-
+    const history = useHistory();
 
     const logout = async () => {
         try {
@@ -18,22 +17,22 @@ const Profile = ({user, setUser}) => {
             alert(e)
         }
     }
+
+
     const saveProfile = async () => {
 
         try {
-            await firestore.collection('users').doc(auth.currentUser.uid).set({
+            await firestore.doc(`users/${user.uid}`).set({
                 ...user,
-                img: '',
-                username: profile.username,
+                ...profile
             })
-            console.log('Successful');
+            history.push('/')
+
         } catch (e) {
-            console.log(e);
+            console.error(e);
         }
 
-        setUser({
-            
-        })
+        setUser(profile);
 
     }
 
@@ -48,8 +47,10 @@ const Profile = ({user, setUser}) => {
                     <li className="collection-item avatar valign-wrapper">
                         <i className="material-icons medium">account_circle</i>
                         <div className="input-field">
-                            <input onChange={(e) => { setProfile({ ...profile, username: e.target.value }) }} id="last_name" type="text" className="validate" />
-                            <label for="last_name">{profile.username}</label>
+                            <input onChange={(e) => { setProfile({ ...user, username: e.target.value }) }}
+                                defaultValue={user.username}
+                                placeholder='Username'
+                                id="last_name" type="text" className="validate" />
                         </div>
                         <Link onClick={saveProfile} className="waves-effect waves-light indigo btn-small">location</Link>
                     </li>

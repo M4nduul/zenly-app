@@ -15,15 +15,15 @@ const App = () => {
   const history = useHistory();
 
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged( async (user) => {
+    const unsubscribe = auth.onAuthStateChanged(async (user) => {
       if (!user) {
         setUser({})
         history.replace('/login')
         setIsLoading(false)
         return
       }
-      
-      const doc = await firestore.doc(`users/${ user.uid }`).get()
+
+      const doc = await firestore.doc(`users/${user.uid}`).get()
       setUser({
         uid: user.uid,
         phone: user.phoneNumber,
@@ -32,34 +32,34 @@ const App = () => {
 
       if (!user.username) {
         history.replace('/profile')
-      }  
-      
+      }
+
       setIsLoading(false)
-        
+
     })
-    
+
     return () => unsubscribe()
 
-  },[history])
-  
-  
-  return(
-      <Switch>
-        <Route exact path='/'>
-          <Homepage user={ user }/>
-        </Route>
-        <Route path='/friendreq'>
-          <FriendRequests />
-        </Route>
-        <Route path='/login'>
-          <Login user={ user }/>
-        </Route>
-        <Route path='/profile'>
-          <Profile user={ user } setUser={ setUser }/>
-        </Route>
-      </Switch>
+  }, [history])
+
+
+  return (
+    <Switch>
+      <Route exact path='/'>
+        <Homepage user={user} />
+      </Route>
+      <Route path='/friendreq'>
+        <FriendRequests />
+      </Route>
+      <Route path='/login'>
+        <Login user={user} />
+      </Route>
+      <Route path='/profile'>
+        <Profile user={user} setUser={setUser} />
+      </Route>
+    </Switch>
   )
-  
+
 }
 
 export default App;
