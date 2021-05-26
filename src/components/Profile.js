@@ -1,57 +1,58 @@
 import { firestore, auth } from './base'
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import './profile.scss'
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 
 const Profile = () => {
-    
+
     const history = useHistory();
     const [profile, setProfile] = useState({
         username: 'Ner',
         age: 'Nas',
         email: 'Email hayag'
     });
-    
+
+    useEffect(() => {
+        const getProfile = async () => {
+            try {
+                const doc = await firestore.collection('users').doc(auth.currentUser.uid).get()
+                console.log('Successful', doc);
+            } catch (e) {
+                console.log(e)
+            }
+        }
+    }, [])
+
+
     const logout = async () => {
         try {
             const userSignOut = await auth.signOut()
             history.push('./home')
-        } catch(e) {
+        } catch (e) {
             alert(e)
         }
     }
     const saveProfile = async () => {
-        let user = auth.currentUser;        
 
         try {
-            console.log(profile);
-            await firestore.collection('users').doc(user.uid).set({
+            await firestore.collection('users').doc(auth.currentUser.uid).set({
                 username: profile.username,
                 age: profile.age,
-                phone: user.phoneNumber,
+                phone: auth.currentUser.phoneNumber,
                 email: profile.email
             })
             console.log('Successful');
-        } catch(e) {
-            console.log(e); 
+        } catch (e) {
+            console.log(e);
         }
-         
+
     }
 
-    const b = {
-        b: 3
-    }
-    const a = {
-        b:1,
-        ...b,
-    }
-    
-
-    return(
+    return (
         <div className='container'>
             <section className='wrapper center-align '>
-                <img src="https://images.unsplash.com/photo-1509768368676-f3c3b060679d?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=662&q=80" className="image--cover"/>
+                <img src="https://images.unsplash.com/photo-1509768368676-f3c3b060679d?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=662&q=80" className="image--cover" />
             </section>
             <main className='center-align'>
                 <ul className="collection">
@@ -59,19 +60,19 @@ const Profile = () => {
                     <li className="collection-item avatar valign-wrapper">
                         <i className="material-icons medium">account_circle</i>
                         <div className="input-field">
-                            <input onChange={(e) => {setProfile({...profile, username: e.target.value})}} id="last_name" type="text" className="validate"/>
-                            <label for="last_name">{ profile.username }</label>
+                            <input onChange={(e) => { setProfile({ ...profile, username: e.target.value }) }} id="last_name" type="text" className="validate" />
+                            <label for="last_name">{profile.username}</label>
                         </div>
                     </li>
-                    
+
                     <li className="collection-item avatar valign-wrapper">
                         <i className="material-icons medium">account_circle</i>
                         <div className="input-field">
-                            <input onChange={(e) => {setProfile({...profile, age: e.target.value})}} id="age" type="text" className="validate"/>
-                            <label for="age">{ profile.age }</label>
+                            <input onChange={(e) => { setProfile({ ...profile, age: e.target.value }) }} id="age" type="text" className="validate" />
+                            <label for="age">{profile.age}</label>
                         </div>
                     </li>
-                    
+
                     {/* <li className="collection-item avatar valign-wrapper">
                         <i className="material-icons medium">account_circle</i>
                         <div className="input-field">
@@ -79,12 +80,12 @@ const Profile = () => {
                             <label for="phone">{ profile.phone }</label>
                         </div>
                     </li> */}
-                    
+
                     <li className="collection-item avatar valign-wrapper">
                         <i className="material-icons medium">account_circle</i>
                         <div className="input-field">
-                            <input onChange={(e) => {setProfile({...profile, email: e.target.value})}} id="email" type="email" className="validate"/>
-                            <label for="email">{ profile.email }</label>
+                            <input onChange={(e) => { setProfile({ ...profile, email: e.target.value }) }} id="email" type="email" className="validate" />
+                            <label for="email">{profile.email}</label>
                         </div>
                     </li>
 
