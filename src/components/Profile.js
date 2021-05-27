@@ -1,7 +1,7 @@
 import { firestore, auth } from './base'
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import './profile.scss'
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom'
 
 const Profile = ({ user, setUser }) => {
@@ -18,7 +18,7 @@ const Profile = ({ user, setUser }) => {
         }
     }
 
-
+    
     const saveProfile = async () => {
 
         try {

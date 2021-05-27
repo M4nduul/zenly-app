@@ -30,9 +30,9 @@ const App = () => {
         ...(doc.data() || {}),
       })
 
-      if (!user.username) {
-        history.replace('/profile')
-      }
+      // if (!user.username) {
+        // history.replace('/profile')
+      // }
 
       setIsLoading(false)
 
@@ -42,7 +42,26 @@ const App = () => {
 
   }, [history])
 
-
+  if (isLoading) {
+    return (
+      <div className='container circle-cont flex'>
+        {/* <header className='header indigo-text'> <h4>Loading...</h4> </header> */}
+        <div class="preloader-wrapper big active">
+          <div class="spinner-layer spinner-blue-only">
+            <div class="circle-clipper left">
+              <div class="circle"></div>
+            </div>
+            <div class="gap-patch">
+              <div class="circle"></div>
+            </div>
+            <div class="circle-clipper right">
+              <div class="circle"></div>
+            </div>
+        </div>
+      </div>
+    </div>
+    )
+  } else {
   return (
     <Switch>
       <Route exact path='/'>
@@ -60,6 +79,6 @@ const App = () => {
     </Switch>
   )
 
+  }
 }
-
 export default App;
