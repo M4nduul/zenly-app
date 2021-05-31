@@ -31,7 +31,7 @@ const App = () => {
       })
 
       // if (!user.username) {
-        // history.replace('/profile')
+      // history.replace('/profile')
       // }
 
       setIsLoading(false)
@@ -46,38 +46,38 @@ const App = () => {
     return (
       <div className='container circle-cont flex'>
         {/* <header className='header indigo-text'> <h4>Loading...</h4> </header> */}
-        <div class="preloader-wrapper big active">
-          <div class="spinner-layer spinner-blue-only">
-            <div class="circle-clipper left">
-              <div class="circle"></div>
+        <div className="preloader-wrapper big active">
+          <div className="spinner-layer spinner-blue-only">
+            <div className="circle-clipper left">
+              <div className="circle"></div>
             </div>
-            <div class="gap-patch">
-              <div class="circle"></div>
+            <div className="gap-patch">
+              <div className="circle"></div>
             </div>
-            <div class="circle-clipper right">
-              <div class="circle"></div>
+            <div className="circle-clipper right">
+              <div className="circle"></div>
             </div>
+          </div>
         </div>
       </div>
-    </div>
     )
   } else {
-  return (
-    <Switch>
-      <Route exact path='/'>
-        <Homepage user={user} />
-      </Route>
-      <Route path='/friendreq'>
-        <FriendRequests />
-      </Route>
-      <Route path='/login'>
-        <Login user={user} />
-      </Route>
-      <Route path='/profile'>
-        <Profile user={user} setUser={setUser} />
-      </Route>
-    </Switch>
-  )
+    return (
+      <Switch>
+        <Route exact path='/'>
+          <Homepage user={user} />
+        </Route>
+        <Route path='/friendreq'>
+          <FriendRequests />
+        </Route>
+        <Route path='/login'>
+          <Login user={user} />
+        </Route>
+        <Route path='/profile'>
+          <Profile user={user} setUser={setUser} />
+        </Route>
+      </Switch>
+    )
 
   }
 }

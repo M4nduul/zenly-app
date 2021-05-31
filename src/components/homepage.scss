@@ -1,11 +1,18 @@
-.map {
+.map-container {
   height: 100vh;
   width: 100vw;
   display: flex;
-  background-color: bisque;
+  background-color: #EEEEEE;
   flex-direction: column;
   justify-content: space-between;
 
+  .map {
+    position: relative;;
+    height: 100%;
+    margin: 20px 0;
+    border: 10px white;
+  }
+  
   header {
     text-align: center;
     color: #0d2480;

@@ -18,7 +18,7 @@ const Profile = ({ user, setUser }) => {
         }
     }
 
-    
+
     const saveProfile = async () => {
 
         try {
@@ -52,7 +52,7 @@ const Profile = ({ user, setUser }) => {
                                 placeholder='Username'
                                 id="last_name" type="text" className="validate" />
                         </div>
-                        <Link onClick={saveProfile} className="waves-effect waves-light indigo btn-small">location</Link>
+                        <Link className="waves-effect waves-light indigo btn-small">location</Link>
                     </li>
 
                 </ul>
