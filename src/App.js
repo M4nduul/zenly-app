@@ -65,7 +65,7 @@ const App = () => {
     return (
       <Switch>
         <Route exact path='/'>
-          <Homepage user={user} />
+          <Homepage user={user} setUser={setUser} />
         </Route>
         <Route path='/friendreq'>
           <FriendRequests />

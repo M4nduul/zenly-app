@@ -33,13 +33,13 @@ const Profile = ({ user, setUser }) => {
         }
 
         setUser(profile);
-
+        console.log(user);
     }
 
     return (
         <div className='container'>
             <section className='wrapper center-align '>
-                <img src="https://images.unsplash.com/photo-1509768368676-f3c3b060679d?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=662&q=80" className="image--cover" />
+                <img alt='' src="https://images.unsplash.com/photo-1509768368676-f3c3b060679d?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=662&q=80" className="image--cover" />
             </section>
             <main className='center-align'>
                 <ul className="collection">

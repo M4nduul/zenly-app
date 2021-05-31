@@ -22,43 +22,53 @@ const Homepage = ({ user }) => {
     window.document.body.appendChild(googleMapScript);
     googleMapScript.addEventListener('load', onGoogleMapLoad)
     trackMyLocation();
-
   }, [])
 
-  useEffect(() => {
-    setMarkers(async () => {
-      try {
-        await firestore.doc()
-      } catch (e) { console.log(e) }
-    })
-
-  }, [markers])
-
-  const onGoogleMapLoad = () => {
+  const onGoogleMapLoad = async () => {
     mapRef.current = new window.google.maps.Map(mapElementRef.current, {
-      center: ulaanbaatar,
-      zoom: 15,
+        center: ulaanbaatar,
+        zoom: 15,
+    });
+
+    firestore.collection('tracking').onSnapshot((querySnapshot) => {
+      const markerList = [];
+      querySnapshot.forEach((doc) => {
+        markerList.push(doc.data())
+      })
+      setMarkers(markerList);  
     })
   }
+
+  useEffect(() => {
+    if(mapRef.current){
+      markers.forEach((item) => new window.google.maps.Marker({
+        position: { lat: item.position.lat, lng: item.position.lng },
+        map: mapRef.current,
+      }));
+    }
+  },[markers]) 
+    
+  
 
   const trackMyLocation = async () => {
     trackingRef.current = navigator.geolocation.watchPosition(position => {
       const { latitude, longitude } = position.coords;
 
-      firestore.collection('location').add({
-        userId: user.uid,
-        position: { lat: latitude, lng: longitude }
-      })
-    },
+        firestore.doc(`tracking/${user.uid}`).set({
+          userId: user.uid,
+          username: user.username,
+          position: { lat: latitude, lng: longitude }
+        })
+        
+     },
       console.error,
-      { maximumAge: 6000 }
+      // { maximumAge: 6000 }
     )
   }
 
 
 
   return (
-
     <div className='container map-container'>
       <header className='header'> <h4>ULAANBAATAR</h4> </header>
       <div ref={mapElementRef} className='map'></div>
