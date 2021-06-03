@@ -27,6 +27,7 @@ const App = () => {
       setUser({
         uid: user.uid,
         phone: user.phoneNumber,
+        image:'https://preview.redd.it/vwoj1l96lsj41.png?auto=webp&s=61d96f7e45f00c1e8eefe374bd23de3f6974fbd8',
         ...(doc.data() || {}),
       })
 

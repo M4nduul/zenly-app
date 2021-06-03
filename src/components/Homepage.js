@@ -27,7 +27,87 @@ const Homepage = ({ user }) => {
   const onGoogleMapLoad = async () => {
     mapRef.current = new window.google.maps.Map(mapElementRef.current, {
         center: ulaanbaatar,
-        zoom: 15,
+        zoom: 3,
+        styles: [
+          { elementType: "geometry", stylers: [{ color: "#242f3e" }] },
+          { elementType: "labels.text.stroke", stylers: [{ color: "#242f3e" }] },
+          { elementType: "labels.text.fill", stylers: [{ color: "#746855" }] },
+          {
+            featureType: "administrative.locality",
+            elementType: "labels.text.fill",
+            stylers: [{ color: "#d59563" }],
+          },
+          {
+            featureType: "poi",
+            elementType: "labels.text.fill",
+            stylers: [{ color: "#d59563" }],
+          },
+          {
+            featureType: "poi.park",
+            elementType: "geometry",
+            stylers: [{ color: "#263c3f" }],
+          },
+          {
+            featureType: "poi.park",
+            elementType: "labels.text.fill",
+            stylers: [{ color: "#6b9a76" }],
+          },
+          {
+            featureType: "road",
+            elementType: "geometry",
+            stylers: [{ color: "#38414e" }],
+          },
+          {
+            featureType: "road",
+            elementType: "geometry.stroke",
+            stylers: [{ color: "#212a37" }],
+          },
+          {
+            featureType: "road",
+            elementType: "labels.text.fill",
+            stylers: [{ color: "#9ca5b3" }],
+          },
+          {
+            featureType: "road.highway",
+            elementType: "geometry",
+            stylers: [{ color: "#746855" }],
+          },
+          {
+            featureType: "road.highway",
+            elementType: "geometry.stroke",
+            stylers: [{ color: "#1f2835" }],
+          },
+          {
+            featureType: "road.highway",
+            elementType: "labels.text.fill",
+            stylers: [{ color: "#f3d19c" }],
+          },
+          {
+            featureType: "transit",
+            elementType: "geometry",
+            stylers: [{ color: "#2f3948" }],
+          },
+          {
+            featureType: "transit.station",
+            elementType: "labels.text.fill",
+            stylers: [{ color: "#d59563" }],
+          },
+          {
+            featureType: "water",
+            elementType: "geometry",
+            stylers: [{ color: "#17263c" }],
+          },
+          {
+            featureType: "water",
+            elementType: "labels.text.fill",
+            stylers: [{ color: "#515c6d" }],
+          },
+          {
+            featureType: "water",
+            elementType: "labels.text.stroke",
+            stylers: [{ color: "#17263c" }],
+          },
+        ],
     });
 
     firestore.collection('tracking').onSnapshot((querySnapshot) => {
@@ -40,24 +120,46 @@ const Homepage = ({ user }) => {
   }
 
   useEffect(() => {
+    let markerObj = [];
     if(mapRef.current){
-      markers.forEach((item) => new window.google.maps.Marker({
+
+      let proPic = {
+        
+      };  
+
+      markerObj = markers.map((item) => new window.google.maps.Marker({
+        icon: {
+          url: item.image,
+          scaledSize: new window.google.maps.Size(30, 40), // scaled size
+          origin: new window.google.maps.Point(0,0), // origin
+          anchor: new window.google.maps.Point(0, 0) // anchor
+        },
+        label: item.username,
         position: { lat: item.position.lat, lng: item.position.lng },
         map: mapRef.current,
       }));
     }
+    
+    return () => {
+      markerObj.forEach((item) => {
+        item.setMap(null)
+      })
+    }
+    
+
   },[markers]) 
     
   
 
-  const trackMyLocation = async () => {
+  const trackMyLocation = () => {
     trackingRef.current = navigator.geolocation.watchPosition(position => {
       const { latitude, longitude } = position.coords;
 
         firestore.doc(`tracking/${user.uid}`).set({
           userId: user.uid,
           username: user.username,
-          position: { lat: latitude, lng: longitude }
+          position: { lat: latitude, lng: longitude },
+          image: user.image,
         })
         
      },
@@ -70,7 +172,7 @@ const Homepage = ({ user }) => {
 
   return (
     <div className='container map-container'>
-      <header className='header'> <h4>ULAANBAATAR</h4> </header>
+      <header className='header'> <h4>ZENLY</h4> </header>
       <div ref={mapElementRef} className='map'></div>
       <div className='button-container'>
         <Link to='/friendreq' className="btn-floating btn-large waves-effect waves-light white"><i className="material-icons indigo-text">chat</i></Link>
