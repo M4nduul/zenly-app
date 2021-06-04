@@ -11,7 +11,7 @@ const Homepage = ({ user }) => {
   const mapRef = useRef();
   const [markers, setMarkers] = useState([]);
   const markerRef = useRef();
-  const trackingRef = useRef();
+  // const trackingRef = useRef();
 
 
   useEffect(() => {
@@ -21,93 +21,92 @@ const Homepage = ({ user }) => {
     googleMapScript.async = true;
     window.document.body.appendChild(googleMapScript);
     googleMapScript.addEventListener('load', onGoogleMapLoad)
-    trackMyLocation();
   }, [])
 
   const onGoogleMapLoad = async () => {
     mapRef.current = new window.google.maps.Map(mapElementRef.current, {
         center: ulaanbaatar,
         zoom: 3,
-        styles: [
-          { elementType: "geometry", stylers: [{ color: "#242f3e" }] },
-          { elementType: "labels.text.stroke", stylers: [{ color: "#242f3e" }] },
-          { elementType: "labels.text.fill", stylers: [{ color: "#746855" }] },
-          {
-            featureType: "administrative.locality",
-            elementType: "labels.text.fill",
-            stylers: [{ color: "#d59563" }],
-          },
-          {
-            featureType: "poi",
-            elementType: "labels.text.fill",
-            stylers: [{ color: "#d59563" }],
-          },
-          {
-            featureType: "poi.park",
-            elementType: "geometry",
-            stylers: [{ color: "#263c3f" }],
-          },
-          {
-            featureType: "poi.park",
-            elementType: "labels.text.fill",
-            stylers: [{ color: "#6b9a76" }],
-          },
-          {
-            featureType: "road",
-            elementType: "geometry",
-            stylers: [{ color: "#38414e" }],
-          },
-          {
-            featureType: "road",
-            elementType: "geometry.stroke",
-            stylers: [{ color: "#212a37" }],
-          },
-          {
-            featureType: "road",
-            elementType: "labels.text.fill",
-            stylers: [{ color: "#9ca5b3" }],
-          },
-          {
-            featureType: "road.highway",
-            elementType: "geometry",
-            stylers: [{ color: "#746855" }],
-          },
-          {
-            featureType: "road.highway",
-            elementType: "geometry.stroke",
-            stylers: [{ color: "#1f2835" }],
-          },
-          {
-            featureType: "road.highway",
-            elementType: "labels.text.fill",
-            stylers: [{ color: "#f3d19c" }],
-          },
-          {
-            featureType: "transit",
-            elementType: "geometry",
-            stylers: [{ color: "#2f3948" }],
-          },
-          {
-            featureType: "transit.station",
-            elementType: "labels.text.fill",
-            stylers: [{ color: "#d59563" }],
-          },
-          {
-            featureType: "water",
-            elementType: "geometry",
-            stylers: [{ color: "#17263c" }],
-          },
-          {
-            featureType: "water",
-            elementType: "labels.text.fill",
-            stylers: [{ color: "#515c6d" }],
-          },
-          {
-            featureType: "water",
-            elementType: "labels.text.stroke",
-            stylers: [{ color: "#17263c" }],
-          },
-        ],
+        // styles: [
+        //   { elementType: "geometry", stylers: [{ color: "#242f3e" }] },
+        //   { elementType: "labels.text.stroke", stylers: [{ color: "#242f3e" }] },
+        //   { elementType: "labels.text.fill", stylers: [{ color: "#746855" }] },
+        //   {
+        //     featureType: "administrative.locality",
+        //     elementType: "labels.text.fill",
+        //     stylers: [{ color: "#d59563" }],
+        //   },
+        //   {
+        //     featureType: "poi",
+        //     elementType: "labels.text.fill",
+        //     stylers: [{ color: "#d59563" }],
+        //   },
+        //   {
+        //     featureType: "poi.park",
+        //     elementType: "geometry",
+        //     stylers: [{ color: "#263c3f" }],
+        //   },
+        //   {
+        //     featureType: "poi.park",
+        //     elementType: "labels.text.fill",
+        //     stylers: [{ color: "#6b9a76" }],
+        //   },
+        //   {
+        //     featureType: "road",
+        //     elementType: "geometry",
+        //     stylers: [{ color: "#38414e" }],
+        //   },
+        //   {
+        //     featureType: "road",
+        //     elementType: "geometry.stroke",
+        //     stylers: [{ color: "#212a37" }],
+        //   },
+        //   {
+        //     featureType: "road",
+        //     elementType: "labels.text.fill",
+        //     stylers: [{ color: "#9ca5b3" }],
+        //   },
+        //   {
+        //     featureType: "road.highway",
+        //     elementType: "geometry",
+        //     stylers: [{ color: "#746855" }],
+        //   },
+        //   {
+        //     featureType: "road.highway",
+        //     elementType: "geometry.stroke",
+        //     stylers: [{ color: "#1f2835" }],
+        //   },
+        //   {
+        //     featureType: "road.highway",
+        //     elementType: "labels.text.fill",
+        //     stylers: [{ color: "#f3d19c" }],
+        //   },
+        //   {
+        //     featureType: "transit",
+        //     elementType: "geometry",
+        //     stylers: [{ color: "#2f3948" }],
+        //   },
+        //   {
+        //     featureType: "transit.station",
+        //     elementType: "labels.text.fill",
+        //     stylers: [{ color: "#d59563" }],
+        //   },
+        //   {
+        //     featureType: "water",
+        //     elementType: "geometry",
+        //     stylers: [{ color: "#17263c" }],
+        //   },
+        //   {
+        //     featureType: "water",
+        //     elementType: "labels.text.fill",
+        //     stylers: [{ color: "#515c6d" }],
+        //   },
+        //   {
+        //     featureType: "water",
+        //     elementType: "labels.text.stroke",
+        //     stylers: [{ color: "#17263c" }],
+        //   },
+        // ],
     });
 
     firestore.collection('tracking').onSnapshot((querySnapshot) => {
@@ -121,23 +120,21 @@ const Homepage = ({ user }) => {
 
   useEffect(() => {
     let markerObj = [];
+   
     if(mapRef.current){
-
-      let proPic = {
-        
-      };  
-
-      markerObj = markers.map((item) => new window.google.maps.Marker({
-        icon: {
-          url: item.image,
-          scaledSize: new window.google.maps.Size(30, 40), // scaled size
-          origin: new window.google.maps.Point(0,0), // origin
-          anchor: new window.google.maps.Point(0, 0) // anchor
-        },
-        label: item.username,
-        position: { lat: item.position.lat, lng: item.position.lng },
-        map: mapRef.current,
-      }));
+      markerObj = markers.map((item) => 
+        new window.google.maps.Marker({
+          icon: {
+            url: item.image || 'https://developers.google.com/maps/images/maps-icon.svg',
+            scaledSize: {
+              width: 30,
+              height: 40,
+            }
+          },
+          label: item.username,
+          position: { lat: item.position.lat, lng: item.position.lng },
+          map: mapRef.current,
+        }));
     }
     
     return () => {
@@ -149,10 +146,8 @@ const Homepage = ({ user }) => {
 
   },[markers]) 
     
-  
-
-  const trackMyLocation = () => {
-    trackingRef.current = navigator.geolocation.watchPosition(position => {
+  useEffect(() => {
+    const watchId = navigator.geolocation.watchPosition(position => {
       const { latitude, longitude } = position.coords;
 
         firestore.doc(`tracking/${user.uid}`).set({
@@ -161,13 +156,12 @@ const Homepage = ({ user }) => {
           position: { lat: latitude, lng: longitude },
           image: user.image,
         })
-        
-     },
-      console.error,
-      // { maximumAge: 6000 }
-    )
-  }
+    })    
 
+    return () => {
+      navigator.geolocation.clearWatch(watchId)
+    }
+  },[])
 
 
   return (
